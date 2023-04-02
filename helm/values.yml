@@ -1,0 +1,10 @@
+ui:
+  replicaCount: 2
+  image:
+    repository: infrastructureacrzXyRr0Uzr2MS52e6.azurecr.io/uberapp
+    tag: v1
+  containerPort: 5000
+
+ingress:
+  class: azure/application-gateway
+  path: /

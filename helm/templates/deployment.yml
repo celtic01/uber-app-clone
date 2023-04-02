@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "uber-app.fullname" . }}-ui
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "uber-app.fullname" . }}-ui
+  replicas: {{ .Values.ui.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "uber-app.fullname" . }}-ui
+    spec:
+      containers:
+      - name: {{ include "uber-app.fullname" . }}-ui
+        image: {{ .Values.ui.image.repository }}:{{ .Values.ui.image.tag }}
+        ports:
+        - containerPort: {{ .Values.ui.containerPort }}
