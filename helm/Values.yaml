@@ -17,5 +17,5 @@ ingress:
   serviceName: uber-ui
   servicePort: 80
 
-Namespace:
+namespace:
   Name: production
