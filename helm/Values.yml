@@ -1,0 +1,18 @@
+replicaCount: 2
+image:
+  repository: infrastructureacrzXyRr0Uzr2MS52e6.azurecr.io/uberapp
+  tag: v1
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 5000
+
+ingress:
+  annotations:
+    kubernetes_io_ingress_class: azure/application-gateway
+  path: /
+  pathType: Prefix
+  serviceName: uber-ui
+  servicePort: 80
