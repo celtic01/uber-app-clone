@@ -16,3 +16,6 @@ ingress:
   pathType: Prefix
   serviceName: uber-ui
   servicePort: 80
+
+Namespace:
+  Name: production
