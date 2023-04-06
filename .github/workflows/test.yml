@@ -12,4 +12,4 @@ jobs:
       - name: modify image tag for HELM
         run: |
           yaml=$(cat helm/Values.yaml)
-          echo yaml
+          echo $yaml
