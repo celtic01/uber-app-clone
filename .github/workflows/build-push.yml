@@ -7,8 +7,6 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    env:
-      LOGIN_SERVER: ${{ vars.LOGIN_SERVER }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -33,13 +31,8 @@ jobs:
           COMMIT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-5)
           echo "COMMIT_SHA=${COMMIT_SHA}" >> $GITHUB_ENV
 
-      - name: Show variables
-        run: |
-          echo "COMMIT_SHA: ${{ env.COMMIT_SHA }}"
-          echo "LOGIN_SERVER: $LOGIN_SERVER"
-
       - name: Tag image
-        run: docker tag uberapp ${{ vars.LOGIN_SERVER }}.azurecr.io/uberapp:$COMMIT_SHA
+        run: docker tag uberapp ${{ vars.LOGIN_SERVER }}.azurecr.io/uberapp:${{ env.COMMIT_SHA }}
       
       - name: Push image
-        run: docker push ${{ vars.LOGIN_SERVER }}.azurecr.io/uberapp:${{ github.sha }}
+        run: docker push ${{ vars.LOGIN_SERVER }}.azurecr.io/uberapp:${{ env.COMMIT_SHA }}
