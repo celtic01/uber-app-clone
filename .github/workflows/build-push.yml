@@ -29,7 +29,9 @@ jobs:
         run: docker build -t uberapp .
 
       - name: Get commit SHA
-        run: echo "COMMIT_SHA=$(${{ github.sha }} | cut -c 1-5)" >> $GITHUB_ENV
+        run: |
+          COMMIT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-5)
+          echo "COMMIT_SHA=${COMMIT_SHA}" >> $GITHUB_ENV
 
       - name: Show variables
         run: |
