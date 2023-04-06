@@ -26,7 +26,8 @@ jobs:
             docker build --name uberapp.
 
       - name: get sha 
-        run: $(${{ env.GITHUB_SHA }} | cut -c 1-5)
+        run: |
+          export COMMIT_SHA=$(${{ env.GITHUB_SHA }} | cut -c 1-5)
 
       - name: tag image
         run: docker tag uberapp $LOGIN_SERVER.azurecr.io/uberapp:${{ env.GITHUB_SHA:0:5 }}
