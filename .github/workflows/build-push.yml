@@ -18,28 +18,26 @@ jobs:
         with:
           creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
 
-      - uses: azure/docker-login@v1
+      - name: Log in to ACR
+        uses: azure/docker-login@v1
         with:
-          login-server: '$LOGIN_SERVER'
-          username: '${{ secrets.CLIENT_ID }}'
-          password: ${{ secrets.CLIENT_SECRET }}
- 
-      - name: build image
+          login-server: ${{ vars.LOGIN_SERVER }}
+          username: ${{ secrets.CLIENT_ID }}
+          password: ${{ secrets.CLIENT_PASSWORD }}
+
+      - name: Build image
+        run: docker build -t uberapp .
+
+      - name: Get commit SHA
+        run: export COMMIT_SHA=$(echo ${{ github.sha }} | cut -c 1-5)
+
+      - name: Show variables
         run: |
-            docker build -t uberapp .
+          echo "COMMIT_SHA: $COMMIT_SHA"
+          echo "LOGIN_SERVER: $LOGIN_SERVER"
 
-      - name: get sha 
-        run: |
-          export COMMIT_SHA=$(echo $GITHUB_SHA | cut -c 1-5)
-
-      - name: get login server
-        run:
-          echo "$COMMIT_SHA"
-          echo "LOGIN_SERVER"
-      - name: tag image
-        run: docker tag uberapp $LOGIN_SERVER.azurecr.io/uberapp:$COMMIT_SHA
+      - name: Tag image
+        run: docker tag uberapp ${{ vars.LOGIN_SERVER }}.azurecr.io/uberapp:$COMMIT_SHA
       
-      - name: push image
-        run: docker push uberapp $
-
-      
+      - name: Push image
+        run: docker push ${{ vars.LOGIN_SERVER }}.azurecr.io/uberapp:$COMMIT_SHA
