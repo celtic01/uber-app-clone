@@ -29,8 +29,11 @@ jobs:
         run: |
           export COMMIT_SHA=$(echo $GITHUB_SHA | cut -c 1-5)
 
+      - name: get login server
+        run:
+          echo $COMMIT_SHA $LOGIN_SERVER 
       - name: tag image
-        run: docker tag uberapp $LOGIN_SERVER.azurecr.io/uberapp:$COMMIT_SHA
+        run: docker tag uberapp '$LOGIN_SERVER'.azurecr.io/uberapp:$COMMIT_SHA
       
       - name: push image
         run: docker push uberapp $
