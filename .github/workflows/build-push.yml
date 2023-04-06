@@ -28,6 +28,14 @@ jobs:
       - name: Build image
         run: docker build -t uberapp .
 
+      - name: Get commit SHA
+        run: echo "COMMIT_SHA=$(${{ github.sha }} | cut -c 1-5)" >> $GITHUB_ENV
+
+      - name: Show variables
+        run: |
+          echo "COMMIT_SHA: ${{ env.COMMIT_SHA }}"
+          echo "LOGIN_SERVER: $LOGIN_SERVER"
+
       - name: Tag image
         run: docker tag uberapp ${{ vars.LOGIN_SERVER }}.azurecr.io/uberapp:$COMMIT_SHA
       
