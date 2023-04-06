@@ -3,9 +3,12 @@ on:
   push:
     branches:
       - main
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    env:
+      LOGIN_SERVER: ${{ vars.LOGIN_SERVER }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -31,9 +34,9 @@ jobs:
 
       - name: get login server
         run:
-          echo $COMMIT_SHA $LOGIN_SERVER 
+          echo '$COMMIT_SHA' '$LOGIN_SERVER'
       - name: tag image
-        run: docker tag uberapp '$LOGIN_SERVER'.azurecr.io/uberapp:$COMMIT_SHA
+        run: docker tag uberapp $LOGIN_SERVER.azurecr.io/uberapp:$COMMIT_SHA
       
       - name: push image
         run: docker push uberapp $
