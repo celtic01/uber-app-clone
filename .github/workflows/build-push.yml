@@ -18,9 +18,11 @@ jobs:
       - uses: azure/docker-login@v1
         with:
           login-server: '$LOGIN_SERVER'
+          username: '${{ secrets.CLIENT_ID }}'
+          password: ${{ secrets.CLIENT_SECRET }}
  
       - name: build image
         run: |
             docker build .
-            
+
       
