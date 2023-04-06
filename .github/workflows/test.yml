@@ -11,7 +11,5 @@ jobs:
 
       - name: modify image tag for HELM
         run: |
-          yaml=$(cat helm/Values.yaml)
-          echo $yaml
-          new_yaml=$(echo "$yaml" | sed 's/tag: .*/tag: my-tag/g')
-          echo $new_yaml
+          sed -i 's/\( *tag: *\).*/\1my-tag/g' Values.yaml >> test.txt
+          cat test.txt
