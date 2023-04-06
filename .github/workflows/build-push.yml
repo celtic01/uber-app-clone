@@ -1,8 +1,8 @@
 name: Build and push Docker image to ACR
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build-and-push:
@@ -38,5 +38,25 @@ jobs:
         run: docker push ${{ vars.LOGIN_SERVER }}/uberapp:${{ env.COMMIT_SHA }}
 
       - name: modify image tag for HELM
+        working-directory: ./helm
         run: |
-          cat yaml=$(cat helm/Values.yaml)
+          # Set the new image tag
+          new_image_tag=${{ env.COMMIT_SHA }}
+          
+          # Create a temporary file
+          temp_file=$(mktemp)
+          
+          # Read the input YAML file and replace the image tag, preserving spaces
+          awk -v new_tag="$new_image_tag" '
+              /^image:/,/^  pullPolicy:/ {
+                  if ($1 == "tag:") {
+                      print "  tag:", new_tag
+                      next
+                  }
+              }
+              { print }
+          ' Values.yaml > "$temp_file"
+          
+          # Replace the original YAML file with the updated one
+          mv "$temp_file" Values.yaml
+          cat Values.yaml

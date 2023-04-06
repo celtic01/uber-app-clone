@@ -10,6 +10,26 @@ jobs:
         uses: actions/checkout@v2
 
       - name: modify image tag for HELM
+        working-directory: ./helm
         run: |
-          sed -i 's/\( *tag: *\).*/\1my-tag/g' helm/Values.yaml >> test.txt
-          cat test.txt
+          # Set the new image tag
+          new_image_tag=${{ env.COMMIT_SHA }}
+          
+          # Create a temporary file
+          temp_file=$(mktemp)
+          
+          # Read the input YAML file and replace the image tag, preserving spaces
+          awk -v new_tag="$new_image_tag" '
+              /^image:/,/^  pullPolicy:/ {
+                  if ($1 == "tag:") {
+                      print "  tag:", new_tag
+                      next
+                  }
+              }
+              { print }
+          ' Values.yaml > "$temp_file"
+          
+          # Replace the original YAML file with the updated one
+          mv "$temp_file" Values.yaml
+          
+          
