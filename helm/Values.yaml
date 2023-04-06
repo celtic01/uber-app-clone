@@ -1,7 +1,7 @@
 replicaCount: 2
 image:
   repository: infrastructureacrzXyRr0Uzr2MS52e6.azurecr.io/uberapp
-  tag: eaf26
+  tag: 3b149
   pullPolicy: IfNotPresent
 
 service:
