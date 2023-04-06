@@ -33,7 +33,7 @@ jobs:
 
       - name: Show variables
         run: |
-          echo "COMMIT_SHA: $COMMIT_SHA"
+          echo "COMMIT_SHA: $COMMIT_SHA" >> $GITHUB_ENV
           echo "LOGIN_SERVER: $LOGIN_SERVER"
 
       - name: Tag image
