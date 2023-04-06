@@ -36,3 +36,7 @@ jobs:
       
       - name: Push image
         run: docker push ${{ vars.LOGIN_SERVER }}/uberapp:${{ env.COMMIT_SHA }}
+
+      - name: modify image tag for HELM
+        run: |
+          cat yaml=$(cat helm/Values.yaml)

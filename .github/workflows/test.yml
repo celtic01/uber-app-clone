@@ -1,0 +1,12 @@
+name: Modify Tag Value
+on: 
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: modify image tag for HELM
+        run: |
+          cat yaml=$(cat helm/Values.yaml)
+          echo yaml
