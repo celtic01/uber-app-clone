@@ -23,7 +23,7 @@ jobs:
  
       - name: build image
         run: |
-            docker build --name uberapp.
+            docker build --name uberapp .
 
       - name: get sha 
         run: |
