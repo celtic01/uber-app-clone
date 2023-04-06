@@ -6,6 +6,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: modify image tag for HELM
         run: |
           cat yaml=$(cat helm/Values.yaml)
