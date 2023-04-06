@@ -15,6 +15,10 @@ jobs:
         with:
           creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
 
+      - uses: azure/docker-login@v1
+        with:
+          login-server: '$LOGIN_SERVER'
+ 
       - name: build image
         run: |
             docker build .
