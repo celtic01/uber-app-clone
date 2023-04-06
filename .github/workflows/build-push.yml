@@ -60,3 +60,13 @@ jobs:
           # Replace the original YAML file with the updated one
           mv "$temp_file" Values.yaml
           cat Values.yaml
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "Modify Helm Chart with new build version"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
