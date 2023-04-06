@@ -23,7 +23,7 @@ jobs:
         with:
           login-server: ${{ vars.LOGIN_SERVER }}
           username: ${{ secrets.CLIENT_ID }}
-          password: ${{ secrets.CLIENT_PASSWORD }}
+          password: ${{ secrets.CLIENT_SECRET }}
 
       - name: Build image
         run: docker build -t uberapp .
